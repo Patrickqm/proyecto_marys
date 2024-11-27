@@ -1,118 +1,119 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// Estilos en línea basados en la paleta de colores
+// Estilos en línea
 const styles = {
   appContainer: {
     display: 'flex',
+    flexDirection: 'column',
     height: '100vh',
     fontFamily: "'Roboto', sans-serif",
-    backgroundColor: '#ffe8ff',
+    backgroundColor: '#000000', // Fondo negro
+    color: '#ffffff', // Texto blanco
   },
-  sidebar: {
-    width: '250px',
-    backgroundColor: '#8890c3',
-    color: 'white',
+  header: {
+    backgroundColor: '#ffffff', // Fondo blanco
+    color: '#000000', // Texto negro
+    textAlign: 'center',
+    padding: '20px 0',
+    fontSize: '2em',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+    textTransform: 'uppercase',
+  },
+  main: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '20px',
-    boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)',
-  },
-  sidebarTitle: {
-    fontSize: '1.5em',
-    marginBottom: '20px',
-    textAlign: 'center',
-    borderBottom: '2px solid white',
-    paddingBottom: '10px',
-  },
-  button: {
-    backgroundColor: '#dcc8ea',
-    color: '#444',
-    border: 'none',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    margin: '10px 0',
-    cursor: 'pointer',
-    fontSize: '1em',
-    textAlign: 'left',
-    transition: 'background-color 0.3s ease',
-  },
-  buttonActive: {
-    backgroundColor: '#cdcdcd',
-    color: '#000',
-  },
-  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
     padding: '20px',
   },
+  sectionButton: {
+    backgroundColor: '#ffffff', // Fondo blanco
+    color: '#000000', // Texto negro
+    border: '2px solid #ffffff',
+    padding: '15px 30px',
+    borderRadius: '5px',
+    fontSize: '1.2em',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    margin: '10px',
+    textTransform: 'uppercase',
+    transition: 'all 0.3s ease',
+  },
+  sectionButtonActive: {
+    backgroundColor: '#000000', // Fondo negro
+    color: '#ffffff', // Texto blanco
+    border: '2px solid #ffffff',
+  },
   iframeContainer: {
     textAlign: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff', // Fondo blanco
     borderRadius: '10px',
     padding: '20px',
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0px 4px 8px rgba(255, 255, 255, 0.1)',
+    marginTop: '20px',
+    width: '90%', // Aumenta el tamaño
+    height: '80vh', // Tamaño dinámico basado en la ventana
   },
   iframe: {
     width: '100%',
-    height: '400px',
+    height: '100%',
     border: 'none',
     borderRadius: '10px',
   },
 };
 
-const RestaurantDashboard = () => {
-  const [activeSection, setActiveSection] = useState('carta'); // Estado para manejar la sección activa
+const InstitutionDashboard = () => {
+  const [activeSection, setActiveSection] = useState(''); // 'primaria' o 'secundaria'
+
+  const dashboardUrls = {
+    primaria: 'https://app.powerbi.com/view?r=eyJrIjoiMWQzMjlhMzAtMmJhZi00M2E5LWE2Y2QtNzM0YTUzMmFjNmUwIiwidCI6IjEzODQxZDVmLTk2OGQtNDYyNC1hN2RhLWQ2OGE2MDA2YTg0YSIsImMiOjR9',
+    
+    secundaria: 'https://app.powerbi.com/view?r=eyJrIjoiNDA5NzRmYTQtMDM3OS00OWU2LTliMmYtZDU2NWYxZTMwNDEyIiwidCI6IjEzODQxZDVmLTk2OGQtNDYyNC1hN2RhLWQ2OGE2MDA2YTg0YSIsImMiOjR9',
+  };
+
+  const renderIframe = (src) => (
+    <div style={styles.iframeContainer}>
+      <iframe title="Dashboard" src={src} style={styles.iframe}></iframe>
+    </div>
+  );
 
   return (
     <div style={styles.appContainer}>
-      {/* Barra lateral */}
-      <aside style={styles.sidebar}>
-        <h1 style={styles.sidebarTitle}>Menú</h1>
-        <button
-          style={{
-            ...styles.button,
-            ...(activeSection === 'carta' ? styles.buttonActive : {}),
-          }}
-          onClick={() => setActiveSection('carta')}
-        >
-          Carta
-        </button>
-        <button
-          style={{
-            ...styles.button,
-            ...(activeSection === 'reportes' ? styles.buttonActive : {}),
-          }}
-          onClick={() => setActiveSection('reportes')}
-        >
-          Reportes de Ventas
-        </button>
-      </aside>
+      {/* Cabecera */}
+      <header style={styles.header}>
+        Institución Educativa Privada Señor de la Divina Misericordia, Nazca
+      </header>
 
-      {/* Contenido principal */}
-      <main style={styles.content}>
-        {activeSection === 'carta' && (
-          <div style={styles.iframeContainer}>
-            <h2>Carta</h2>
-            <iframe
-              title="Carta"
-              src="https://app.powerbi.com/view?r=eyJrIjoiNjAyN2RkZDAtOGE3ZS00OTAwLThiOWYtMDc0YzJjMmJlODA2IiwidCI6IjEzODQxZDVmLTk2OGQtNDYyNC1hN2RhLWQ2OGE2MDA2YTg0YSIsImMiOjR9"
-              style={styles.iframe}
-            ></iframe>
-          </div>
-        )}
-        {activeSection === 'reportes' && (
-          <div style={styles.iframeContainer}>
-            <h2>Reportes de Ventas</h2>
-            <iframe
-              title="Reportes de Ventas"
-              src="https://app.powerbi.com/view?r=eyJrIjoiMzM5YTI3Y2YtOWQxZC00NDg3LWIzMzEtMDBhZDUwMWJiZTI3IiwidCI6IjEzODQxZDVmLTk2OGQtNDYyNC1hN2RhLWQ2OGE2MDA2YTg0YSIsImMiOjR9"
-              style={styles.iframe}
-            ></iframe>
-          </div>
-        )}
-      </main>
+      {/* Cuerpo principal */}
+      <div style={styles.main}>
+        {/* Botones de secciones */}
+        <button
+          style={{
+            ...styles.sectionButton,
+            ...(activeSection === 'primaria' && styles.sectionButtonActive),
+          }}
+          onClick={() => setActiveSection('primaria')}
+        >
+          Primaria
+        </button>
+        <button
+          style={{
+            ...styles.sectionButton,
+            ...(activeSection === 'secundaria' && styles.sectionButtonActive),
+          }}
+          onClick={() => setActiveSection('secundaria')}
+        >
+          Secundaria
+        </button>
+
+        {/* Dashboard activo */}
+        {activeSection === 'primaria' && renderIframe(dashboardUrls.primaria)}
+        {activeSection === 'secundaria' && renderIframe(dashboardUrls.secundaria)}
+      </div>
     </div>
   );
 };
@@ -120,11 +121,8 @@ const RestaurantDashboard = () => {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
-    <RestaurantDashboard />
+    <InstitutionDashboard />
   </React.StrictMode>
 );
 
-// Medición de performance
 reportWebVitals();
-
